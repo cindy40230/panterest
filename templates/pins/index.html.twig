@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Find all the best pins on earth !' %}
+
+{% block body %}
+{#  lenght est un filtre qui compte le nombre d 'element de notre tableau #}
+{#  pluralize fonction twig  que l on creer qui recoit le singulier et le pluriel(si il est pas renseigner la fonction le transfomera) qui elle choira en fonction du nombre d element #}
+<h1>{{ pluralize(pins|length,'Pin')}} </h1> 
+
+{# {{dump(pins)}} #}
+
+{% for pin in pins %}
+<article> 
+    <h2>{{pin.title}}</h2>
+    <p>{{pin.description}}</p>
+</article>    
+{% endfor %}
+
+
+{% endblock %}
