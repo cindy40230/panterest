@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PinRepository;
+use App\Entity\Pin;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,5 +18,15 @@ class PinsController extends AbstractController
         $pins= $pinRepository->findAll(); // on stock dans une variable le tableau qui recupère tous les éléments grace à la méthode findAll()
        
         return $this->render('pins/index.html.twig',compact('pins'));//compact('pins') est l'équivalent de ['pins'=>$pins]
+    }
+
+    /**
+     * @Route("/pins/{id<[0-9]>}", name="app_pins_show")
+     */
+    public function show(Pin $pin):Response
+    {
+       
+       //dd($pin);
+       return $this->render('pins/show.html.twig',compact('pin'));
     }
 }
