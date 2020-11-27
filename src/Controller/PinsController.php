@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\PinRepository;
 use App\Entity\Pin;
+use App\Form\PinType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,11 +31,8 @@ class PinsController extends AbstractController
     {
         $pin=new Pin;
 
-        $form = $this -> createFormBuilder($pin) //on utilise formBuilder et en argument un objet
-        ->add('title',TextType::class)  // ajout d un champs titre
-        ->add('description',TextareaType::class) // ajout d un champs description   
-        ->getForm() //recuperation du formulaire
-        ;
+        $form = $this -> createForm(PinType::class,$pin) ;//on utilise formBuilder et en argument un objet
+       
         //dd($form);
         $form->handleRequest($request);//mon fromulaire faut gerer la requete (ceci va nous permettre de recuperer les données passé dans le formulaire)
         
@@ -65,15 +63,14 @@ class PinsController extends AbstractController
 
 
     /**
-     * @Route("/pins/{id<[0-9]>}/edit", name="app_pins_edit",methods={"GET","POST"})
+     * @Route("/pins/{id<[0-9]>}/edit", name="app_pins_edit",methods={"GET","PUT"})
      */
     public function edit(Pin $pin,EntityManagerInterface $em,Request  $request):Response
     {
-        $form = $this -> createFormBuilder($pin) //on utilise formBuilder et en argument un objet
-        ->add('title',TextType::class)  // ajout d un champs titre
-        ->add('description',TextareaType::class) // ajout d un champs description   
-        ->getForm() //recuperation du formulaire
-        ;
+        $form = $this -> createForm(PinType::class,$pin,[
+            'method'=>'PUT'
+        ]);
+        
 
         $form->handleRequest($request);
 
