@@ -15,8 +15,8 @@ class PinsController extends AbstractController
      */
     public function index(PinRepository $pinRepository): Response
     {
-        $pins= $pinRepository->findAll(); // on stock dans une variable le tableau qui recupère tous les éléments grace à la méthode findAll()
-       
+       // $pins= $pinRepository->findAll(); // on stock dans une variable le tableau qui recupère tous les éléments grace à la méthode findAll()
+       $pins = $pinRepository->findBy([],['createdAt'=>'DESC']);//pour recuperer tous les pins (1er argument)en ordre du plus recent au plus ancien DESC deuxième argument
         return $this->render('pins/index.html.twig',compact('pins'));//compact('pins') est l'équivalent de ['pins'=>$pins]
     }
 
