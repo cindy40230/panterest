@@ -24,6 +24,18 @@ class PinsController extends AbstractController
        $pins = $pinRepository->findBy([],['createdAt'=>'DESC']);//pour recuperer tous les pins (1er argument)en ordre du plus recent au plus ancien DESC deuxième argument
         return $this->render('pins/index.html.twig',compact('pins'));//compact('pins') est l'équivalent de ['pins'=>$pins]
     }
+
+     /**
+     * @Route("/pins/{id<[0-9]+>}", name="app_pins_show",methods={"GET"})
+     */
+    public function show(Pin $pin):Response
+    {
+       
+       //dd($pin);
+       return $this->render('pins/show.html.twig',compact('pin'));
+    }
+
+
     /**
      * @Route("/pins/create", name="app_pins_create",methods={"GET","POST"})
      */
@@ -51,15 +63,7 @@ class PinsController extends AbstractController
     }
 
 
-    /**
-     * @Route("/pins/{id<[0-9]>}", name="app_pins_show",methods={"GET"})
-     */
-    public function show(Pin $pin):Response
-    {
-       
-       //dd($pin);
-       return $this->render('pins/show.html.twig',compact('pin'));
-    }
+    
 
 
     /**
@@ -104,6 +108,7 @@ class PinsController extends AbstractController
 
            return $this->redirectToRoute('app_home');
     }
+   
 
     
 }
