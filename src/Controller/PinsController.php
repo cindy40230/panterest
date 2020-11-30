@@ -35,7 +35,6 @@ class PinsController extends AbstractController
        return $this->render('pins/show.html.twig',compact('pin'));
     }
 
-
     /**
      * @Route("/pins/create", name="app_pins_create",methods={"GET","POST"})
      */
@@ -62,10 +61,6 @@ class PinsController extends AbstractController
        return $this->render('pins/create.html.twig',['form'=>$form->createView()]);
     }
 
-
-    
-
-
     /**
      * @Route("/pins/{id<[0-9]+>}/edit", name="app_pins_edit",methods={"GET","PUT"})
      */
@@ -74,7 +69,6 @@ class PinsController extends AbstractController
         $form = $this -> createForm(PinType::class,$pin,[
             'method'=>'PUT'
         ]);
-        
 
         $form->handleRequest($request);
 
@@ -105,10 +99,7 @@ class PinsController extends AbstractController
             $em->flush();//ne pas oublier de flush ()
         }
            
-
            return $this->redirectToRoute('app_home');
     }
-   
-
-    
+     
 }
