@@ -53,6 +53,10 @@ class PinsController extends AbstractController
             $em->persist($pin);
             $em->flush();
 
+
+            //affichage de succes pin créer !
+            $this->addFlash('success','Pin successfully created ! ');
+
             //redirection vers la page d accueil
             return $this->redirectToRoute('app_home');
         }
@@ -78,6 +82,8 @@ class PinsController extends AbstractController
 
             $em->flush();//pas besoin de persister puisque nous avons deja recuperer le pin
 
+            //affichage de succes !pin mise a jour 
+            $this->addFlash('success','Pin successfully updated! ');
             //redirection vers la page d accueil
             return $this->redirectToRoute('app_home');
         }
@@ -97,6 +103,9 @@ class PinsController extends AbstractController
             //dd($request->request->get('csrf_token'))=> le token en valeur
             $em->remove($pin); //pour supprimer c est facile on appelle entityManager et on supprime le pin passer
             $em->flush();//ne pas oublier de flush ()
+
+            //affichage d information pin supprimé avec success
+            $this->addFlash('info','Pin successfully deleted ! ');
         }
            
            return $this->redirectToRoute('app_home');
