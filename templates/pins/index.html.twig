@@ -12,7 +12,8 @@
 {% for pin in pins %}
 <article> 
     <h2> <a href="{{ path('app_pins_show',{id: pin.id}) }}">{{pin.title}}</a></h2> 
-    <p>{{pin.description}}</p>
+    <p>{{pin.description|u.truncate(15,'...',false )}}</p>{# filtre u pour tronquer le texte à 15 caractères et des point de suspension en deuxième argument et false pour ne pas qu il tronque les mots#}
+    <p>Submited {{pin.createdAt|ago}}</p>{# filtre ago permet de calculer la difference entre le jour et la creation #}
 </article>    
 {% endfor %}
 
