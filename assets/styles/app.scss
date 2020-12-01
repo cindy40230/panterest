@@ -1,0 +1,32 @@
+//importation de la font 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+//chagement de bootstrap
+@import "~bootstrap/scss/bootstrap";// equivalent aussi "~bootstrap"
+
+//importation des variables
+@import 'shared/variables';
+
+
+
+html,body{
+    font-family: $primary-font, sans-serif;
+  }
+  .alert{ padding: 10px;
+  color:white;
+  text-align: center;
+  margin: 0;
+  border: none ;
+  border-radius: 0;
+     &.alert-success{
+      background-color: green;
+    }
+     &.alert-error{
+      background-color:red;
+    }
+     &.alert-info{
+      background-color:blue;
+    }
+  }
+  
+  
