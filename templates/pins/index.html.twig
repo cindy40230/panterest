@@ -5,17 +5,38 @@
 {% block body %}
 {#  lenght est un filtre qui compte le nombre d 'element de notre tableau #}
 {#  pluralize fonction twig  que l on creer qui recoit le singulier et le pluriel(si il est pas renseigner la fonction le transfomera) qui elle choira en fonction du nombre d element #}
-<h1>{{ pluralize(pins|length,'Pin')}} </h1> 
+
+{% if pins|length > 0 %}
+<h1 class="mb-4 text-center text-muted ">{{ pluralize(pins|length,'Pin')}} </h1>
 
 {# {{dump(pins)}} #}
 
-{% for pin in pins %}
-<article> 
-    <h2> <a href="{{ path('app_pins_show',{id: pin.id}) }}">{{pin.title}}</a></h2> 
-    <p>{{pin.description|u.truncate(15,'...',false )}}</p>{# filtre u pour tronquer le texte à 15 caractères et des point de suspension en deuxième argument et false pour ne pas qu il tronque les mots#}
-    <p>Submited {{pin.createdAt|ago}}</p>{# filtre ago permet de calculer la difference entre le jour et la creation #}
-</article>    
+{% for row in pins|batch(3) %}{# pour chaque ligne regroupe les pins par lot de 3 #}
+<div class="row mb-5">
+    {% for pin in row %}
+    <div class="col-md-4">
+        <article class="pin bg-white rounded shadow">
+            <div class="mw-100 overflow-hidden">
+                <a href="{{ path('app_pins_show',{id: pin.id}) }}"><img class="w-100 h-100 rounded-top"
+                        src=" {{(pin.imageName ? vich_uploader_asset(pin) : asset('build/images/image-placeholder.jpg')) | imagine_filter('squared_thumbnail_medium')}} "
+                        alt=" {{ pin.title}}" /> </a>
+            </div>
+            <h2 class=' pl-3 pt-3 h5 ' > <a class=" text-muted text-decoration-none text-secondary" href="{{ path('app_pins_show',{id: pin.id}) }}">{{pin.title}}</a></h2>
+          
+            {# filtre u pour tronquer le texte à 15 caractères et des point de suspension en deuxième argument et false pour ne pas qu il tronque les mots#}
+            <p class=" pl-3 pb-3 text-muted"> 
+                <small>Submited [OWNER FULL NAME]</small>
+            </p>
+            {# filtre ago permet de calculer la difference entre le jour et la creation #}
+        </article>
+    </div>
+    {% endfor %}
+</div>
 {% endfor %}
+
+{% else %}
+<p class="mt-5 h1 text-center ">No pin yet. <a href="{{ path('app_pins_create')}}"> Be the first !</a> </p>
+{% endif %}
 
 
 {% endblock %}
