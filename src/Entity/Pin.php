@@ -56,6 +56,14 @@ class Pin
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="pins")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    
+
    
     public function getId(): ?int
     {
@@ -116,6 +124,20 @@ class Pin
 
         return $this;
     }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    
 
   
 }
