@@ -8,13 +8,13 @@
     <article class="pin bg-white rounded shadow">
       <div class="mw-100 rounded-top overflow-hidden">
           <a href="{{ path('app_pins_show',{id: pin.id}) }}"><img class="w-100 h-100 "
-                  src=" {{(pin.imageName ? vich_uploader_asset(pin) : asset('build/images/image-placeholder.jpg')) | imagine_filter('squared_thumbnail_medium')}} "
+                  src=" {{(pin.imageName ? vich_uploader_asset(pin) : asset('build/images/no-photo.png')) | imagine_filter('squared_thumbnail_medium')}} "
                   alt=" {{ pin.title}}" /> </a>
       </div>
       <h1 class=' pl-3 pt-3 h5 ' > <a class=" text-muted text-decoration-none text-secondary" href="{{ path('app_pins_show',{id: pin.id}) }}">{{pin.title}}</a></h1>
       <p class=" pl-3 pb-3 text-muted"> 
         <small>Submited 
-              <time datetime="{{pin.createdAt|date('Y-m-d H:i:s')}}">{{pin.createdAt|ago}}</time>  by  [OWNER FULL NAME]
+              <time datetime="{{pin.createdAt|date('Y-m-d H:i:s')}}">{{pin.createdAt|ago}}</time>  by   {{pin.user.fullName}}
         </small>
       </p>
       <p class="pb-3 pl-3">{{pin.description}}</p>

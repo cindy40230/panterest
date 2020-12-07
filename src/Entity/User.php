@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use App\Entity\Traits\Timestampable;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Pin;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -193,6 +194,12 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->getFirstName().' '. $this-> getLastName();
+        
     }
 
 }
