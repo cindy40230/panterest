@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Repository\PinRepository;
 use App\Entity\Pin;
 use App\Form\PinType;
+use App\Repository\PinRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PinsController extends AbstractController
 {
@@ -38,7 +39,7 @@ class PinsController extends AbstractController
     /**
      * @Route("/pins/create", name="app_pins_create",methods={"GET","POST"})
      */
-    public function create(Request  $request,EntityManagerInterface $em):Response
+    public function create(Request  $request,EntityManagerInterface $em,UserRepository $userRepo) :Response
     {
         $pin=new Pin;
 
@@ -48,7 +49,8 @@ class PinsController extends AbstractController
         $form->handleRequest($request);//mon fromulaire faut gerer la requete (ceci va nous permettre de recuperer les données passé dans le formulaire)
         
         if ($form->isSubmitted() && $form->isValid()) { 
-           
+           $berton=$userRepo->findOneBy(['email'=>'jerome.berton@sfr.fr']);
+           $pin->setUser($berton);
             //dd($pin);
             $em->persist($pin);
             $em->flush();
