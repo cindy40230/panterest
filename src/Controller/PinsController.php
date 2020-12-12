@@ -49,8 +49,8 @@ class PinsController extends AbstractController
         $form->handleRequest($request);//mon fromulaire faut gerer la requete (ceci va nous permettre de recuperer les données passé dans le formulaire)
         
         if ($form->isSubmitted() && $form->isValid()) { 
-           $berton=$userRepo->findOneBy(['email'=>'jerome.berton@sfr.fr']);
-           $pin->setUser($berton);
+          
+           $pin->setUser($this->getUser());
             //dd($pin);
             $em->persist($pin);
             $em->flush();
