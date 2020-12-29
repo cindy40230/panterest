@@ -31,7 +31,14 @@ class RegistrationController extends AbstractController
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, LoginFormAuthenticator $authenticator,EntityManagerInterface $em): Response
     {
-       
+        if ($this->getUser()) //si un utilisateur est connecté
+        
+        {
+            //ajout d un message flash vous etes deja connecter
+            $this->addFlash('error','already logged in !');
+            //redirection vers l accueil 
+            return $this->redirectToRoute('app_home');
+        }
 
         $user = new User;//instantciation de l entity user
         $form = $this->createForm(RegistrationFormType::class, $user); // on creer un formulaire du type RegistrationFormType contenant 3 champs
@@ -91,14 +98,16 @@ class RegistrationController extends AbstractController
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('error', $exception->getReason());
 
-            return $this->redirectToRoute('app_register');
+            //redirection vers la page d accueil
+            return $this->redirectToRoute('app_home');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        //redirection vers la page d accueil
+        return $this->redirectToRoute('app_home');
     }
 }
