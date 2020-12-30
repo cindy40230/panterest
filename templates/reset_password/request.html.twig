@@ -19,11 +19,11 @@
    
 
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
+    {{ form_start(requestForm) }}{# debut du formulaire requestForm #}
+        {{ form_row(requestForm.email) }}{# unique champs email du formulaire #}
        
         <button type="submit" class="btn btn-primary btn-block mt-3 btn-lg">Send password reset email</button>
-    {{ form_end(requestForm) }}
+    {{ form_end(requestForm) }}{# fin du formulaire requestForm #}
     </div>
 </div>
    
