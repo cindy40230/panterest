@@ -13,10 +13,13 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 
+/**
+ * @Route("/account")
+ */
 class AccountController extends AbstractController
 {
     /**
-     * @Route("/account", name="app_account",methods="GET")
+     * @Route("", name="app_account",methods="GET")
      */
     public function show(): Response
     {
@@ -24,7 +27,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/account/edit", name="app_account_edit",methods={"GET","POST"})
+     * @Route("/edit", name="app_account_edit",methods={"GET","POST"})
      */
     public function edit(Request $request,EntityManagerInterface $em): Response
     {
@@ -50,17 +53,19 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/account/change-password", name="app_account_change_password",methods={"GET","POST"})
+     * @Route("/change-password", name="app_account_change_password",methods={"GET","POST"})
      */
     public function changePassword(Request $request,EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user=$this->getUser();
-        $form = $this->createForm(ChangePasswordFormType::class);
+        $form = $this->createForm(ChangePasswordFormType::class,null,[
+            'current_password_is_required'=> true
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) { 
             
-            $user->setPassword($passwordEncoder->encodePassword ($user,$form['plainPassword']->getData()));
+            $user->setPassword($passwordEncoder->encodePassword($user,$form['plainPassword']->getData()));
             $em->flush();
             //ajout d un message flash modifier avec success
             $this->addFlash('success','Password Udapted Sucessfully!');
