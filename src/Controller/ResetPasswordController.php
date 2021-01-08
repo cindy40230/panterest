@@ -43,6 +43,14 @@ class ResetPasswordController extends AbstractController
      */
     public function request(Request $request, MailerInterface $mailer): Response
     {
+        if ($this->getUser()) //si un utilisateur est connecté
+        
+        {
+            //ajout d un message flash vous etes deja connecter
+            $this->addFlash('error','already logged in !');
+            //redirection vers l accueil 
+            return $this->redirectToRoute('app_home');
+        }
         //creation du formulaire avec un seul champ email
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         //le formuliare gere la requete de type post
